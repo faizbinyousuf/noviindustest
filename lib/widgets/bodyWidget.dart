@@ -10,6 +10,7 @@ class CustomListView extends StatelessWidget {
   CustomListView(this.categoryData);
   @override
   Widget build(BuildContext context) {
+    Size _size = MediaQuery.of(context).size;
     return Column(
       children: [
         Container(
@@ -30,8 +31,8 @@ class CustomListView extends StatelessWidget {
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: Container(
-                        width: 230,
-                        height: 300,
+                        width: _size.width*.6,
+                        height: _size.height*.5,
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(10),
                           child: Image.asset(
