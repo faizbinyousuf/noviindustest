@@ -1,10 +1,5 @@
-// To parse this JSON data, do
-//
-//     final data = dataFromJson(jsonString);
 
 import 'dart:convert';
-
-import 'package:flutter/foundation.dart';
 
 List<Data> dataFromJson(String str) =>
     List<Data>.from(json.decode(str).map((x) => Data.fromJson(x)));
@@ -13,6 +8,7 @@ String dataToJson(List<Data> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class Data {
+
   Data({
     this.category,
     this.imageBanner,

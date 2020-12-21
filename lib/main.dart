@@ -1,12 +1,14 @@
 import 'dart:convert';
-import 'dart:ffi';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:testnovi/model/category.dart';
+import 'package:testnovi/provider/categoryProvider.dart';
 import 'package:testnovi/services/api.dart';
 import 'package:testnovi/style/theme.dart';
 import 'package:testnovi/widgets/bodyWidget.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,7 +25,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: MyTabBar(),
+      home: ChangeNotifierProvider<CategoryProvider>(
+          create: (context) => CategoryProvider(), child: MyTabBar()),
     );
   }
 }
@@ -34,42 +37,25 @@ class MyTabBar extends StatefulWidget {
 }
 
 class _MyTabBarState extends State<MyTabBar> with TickerProviderStateMixin {
-  List<Data> categoriesData = new List();
-
+  List<Data> categoriesData = [];
 
   Size _size;
 
   int currentIndex;
 
-
-  var newData;
-
-  bool isLoading = true;
   List<Widget> categoryWidget = [];
-
 
   @override
   void initState() {
-    newData = parseJson();
-    super.initState();
-  }
-
-
-
-  Future parseJson() async {
-    String data = await Api.loadAsset();
-    categoriesData = dataFromJson(data);
+    categoriesData = Provider.of<CategoryProvider>(context, listen: false)
+        .fetchData(context);
 
     for (int i = 0; i < categoriesData.length; i++) {
       widgets.add(CustomListView(categoriesData[i]));
       categoryWidget.add(_buildCategory(categoriesData[i].category));
     }
 
-    setState(() {
-      isLoading = false;
-    });
-
-    return categoriesData;
+    super.initState();
   }
 
   _buildCategory(String category) {
@@ -87,39 +73,43 @@ class _MyTabBarState extends State<MyTabBar> with TickerProviderStateMixin {
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: getAppBar(),
-        body: isLoading
-            ? Center(child: CircularProgressIndicator())
-            : Column(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  Padding(
-                    padding:
-                        const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
-                    child: TabBar(
-                      labelColor: Colors.black,
-                      isScrollable: true,
-                      indicatorColor: Colors.transparent,
-                      unselectedLabelColor: AppTheme.tabTextUnselected,
-                      unselectedLabelStyle: TextStyle(
-                        fontSize: 16,
-                        color: AppTheme.tabTextUnselected,
-                        fontWeight: FontWeight.w700,
+        body: Consumer<CategoryProvider>(
+          builder: (context, data, child) {
+            return categoriesData == null
+                ? Center(child: CircularProgressIndicator())
+                : Column(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 10, horizontal: 5),
+                        child: TabBar(
+                          labelColor: Colors.black,
+                          isScrollable: true,
+                          indicatorColor: Colors.transparent,
+                          unselectedLabelColor: AppTheme.tabTextUnselected,
+                          unselectedLabelStyle: TextStyle(
+                            fontSize: 16,
+                            color: AppTheme.tabTextUnselected,
+                            fontWeight: FontWeight.w700,
+                          ),
+                          labelStyle: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w700,
+                          ),
+                          tabs: categoryWidget,
+                        ),
                       ),
-                      labelStyle: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700,
+                      Expanded(
+                        child: TabBarView(
+                          children: widgets,
+                        ),
                       ),
-                      tabs: categoryWidget,
-                    ),
-                  ),
-                  Expanded(
-                    child: TabBarView(
-                      children: widgets,
-                    ),
-                  ),
-                ],
-              ),
+                    ],
+                  );
+          },
+        ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         bottomNavigationBar: BottomAppBar(
           child: Container(
@@ -132,7 +122,6 @@ class _MyTabBarState extends State<MyTabBar> with TickerProviderStateMixin {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     IconButton(
-                      //update the bottom app bar view each time an item is clicked
                       onPressed: () {
                         updateTabSelection(0);
                       },
@@ -142,7 +131,6 @@ class _MyTabBarState extends State<MyTabBar> with TickerProviderStateMixin {
                         color: selectedIndex == 0
                             ? Colors.brown.withOpacity(.7)
                             : Colors.grey.shade400,
-                        //darken the icon if it is selected or else give it a different color
                       ),
                     ),
                     Text('Home')
@@ -166,7 +154,6 @@ class _MyTabBarState extends State<MyTabBar> with TickerProviderStateMixin {
                     Text('Whishlist')
                   ],
                 ),
-                //to leave space in between the bottom app bar items and below the FAB
                 SizedBox(
                   width: 50.0,
                 ),
