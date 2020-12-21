@@ -1,0 +1,120 @@
+[
+  {
+    "category": "Gold",
+    "imageBanner": "assets/images/banner1.jpg",
+    "subCategory": [
+      {
+        "subcatName": "Ring1",
+        "subcatImage": "assets/images/ring.png"
+      },
+      {
+        "subcatName": "Bangle",
+        "subcatImage": "assets/images/bangle.png"
+      },
+      {
+        "subcatName": "Necklace",
+        "subcatImage": "assets/images/chain.png"
+      },
+      {
+        "subcatName": "Chain",
+        "subcatImage": "assets/images/necklace.png"
+      }, {
+        "subcatName": "test",
+        "subcatImage": "assets/images/necklace.png"
+      }
+    ]
+  },
+  {
+    "category": "Silver",
+    "imageBanner": "assets/images/banner2.jpg",
+    "subCategory": [
+      {
+        "subcatName": "Rings",
+        "subcatImage": "assets/images/ring.png"
+      },
+      {
+        "subcatName": "Bangle",
+        "subcatImage": "assets/images/bangle.png"
+      },
+      {
+        "subcatName": "Necklace",
+        "subcatImage": "assets/images/chain.png"
+      },
+      {
+        "subcatName": "Chain",
+        "subcatImage": "assets/images/necklace.png"
+      }
+    ]
+  },
+  {
+    "category": "Platinum",
+    "imageBanner": "assets/images/banner3.jpg",
+    "subCategory": [
+      {
+        "subcatName": "Ring",
+        "subcatImage": "assets/images/ring.png"
+      },
+      {
+        "subcatName": "Bangle",
+        "subcatImage": "assets/images/bangle.png"
+      },
+      {
+        "subcatName": "Necklace",
+        "subcatImage": "assets/images/chain.png"
+      },
+      {
+        "subcatName": "Chain",
+        "subcatImage": "assets/images/necklace.png"
+      }
+    ]
+  },
+  {
+    "category": "Diamond",
+    "imageBanner": "assets/images/banner4.jpg",
+    "subCategory": [
+      {
+        "subcatName": "Ring",
+        "subcatImage": "assets/images/ring.png"
+      },
+      {
+        "subcatName": "Bangle",
+        "subcatImage": "assets/images/bangle.png"
+      },
+      {
+        "subcatName": "Necklace",
+        "subcatImage": "assets/images/chain.png"
+      },
+      {
+        "subcatName": "Chain",
+        "subcatImage": "assets/images/necklace.png"
+      },
+      {
+        "subcatName": "Chainnew",
+        "subcatImage": "assets/images/necklace.png"
+      }
+    ]
+  },
+  {
+    "category": "Test cat",
+    "imageBanner": "assets/images/banner4.jpg",
+    "subCategory": [
+      {
+        "subcatName": "Ring1",
+        "subcatImage": "assets/images/ring.png"
+      },
+      {
+        "subcatName": "Bangle1",
+        "subcatImage": "assets/images/bangle.png"
+      },
+      {
+        "subcatName": "Necklace1",
+        "subcatImage": "assets/images/chain.png"
+      },
+      {
+        "subcatName": "Chain1",
+        "subcatImage": "assets/images/necklace.png"
+      }
+    ]
+  }
+
+]
