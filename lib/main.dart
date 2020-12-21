@@ -4,6 +4,7 @@ import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:testnovi/model/category.dart';
+import 'package:testnovi/services/api.dart';
 import 'package:testnovi/style/theme.dart';
 import 'package:testnovi/widgets/bodyWidget.dart';
 
@@ -33,56 +34,42 @@ class MyTabBar extends StatefulWidget {
 }
 
 class _MyTabBarState extends State<MyTabBar> with TickerProviderStateMixin {
-  List<Data> catData = new List();
+  List<Data> categoriesData = new List();
 
-  Future _future;
+
   Size _size;
-  int tabLength = 0;
-  var jsonData;
-  // TabController _tabController;
-  bool offStage = false;
+
   int currentIndex;
-  bool active = false;
-  int length = 0;
+
+
   var newData;
-  List<Data> myList = new List();
+
   bool isLoading = true;
   List<Widget> categoryWidget = [];
-  List<String> subCategories = [];
-  List<String> subImages = [];
+
+
   @override
   void initState() {
     newData = parseJson();
     super.initState();
-
-    //_tabController = TabController(vsync: this, length: 4);
-    print('cat length' + catData.length.toString());
-
-    print('json data' + newData.toString());
-    //_tabController.addListener(_handleTabSelection);
   }
 
-  Future<String> loadAsset() async {
-    return await rootBundle.loadString('assets/data.json');
-  }
+
 
   Future parseJson() async {
-    String data = await loadAsset();
-    // print(data);
-    //var dat = jsonDecode(data);
-    catData = dataFromJson(data);
+    String data = await Api.loadAsset();
+    categoriesData = dataFromJson(data);
 
-    for (int i = 0; i < catData.length; i++) {
-      //widgets.add(customListView(newData));
-      widgets.add(CustomListView(catData[i]));
-      categoryWidget.add(_buildCategory(catData[i].category));
+    for (int i = 0; i < categoriesData.length; i++) {
+      widgets.add(CustomListView(categoriesData[i]));
+      categoryWidget.add(_buildCategory(categoriesData[i].category));
     }
 
     setState(() {
       isLoading = false;
     });
 
-    return catData;
+    return categoriesData;
   }
 
   _buildCategory(String category) {
@@ -96,7 +83,7 @@ class _MyTabBarState extends State<MyTabBar> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     _size = MediaQuery.of(context).size;
     return DefaultTabController(
-      length: catData.length,
+      length: categoriesData.length,
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: getAppBar(),
